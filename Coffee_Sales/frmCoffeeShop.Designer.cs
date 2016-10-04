@@ -75,7 +75,7 @@
             this.label2.Location = new System.Drawing.Point(542, 595);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(96, 17);
-            this.label2.TabIndex = 3;
+            this.label2.TabIndex = 5;
             this.label2.Text = "Anju Chawla";
             // 
             // groupBox1
@@ -122,13 +122,13 @@
             // 
             // btnClear
             // 
+            this.btnClear.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnClear.Location = new System.Drawing.Point(135, 137);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 53);
             this.btnClear.TabIndex = 5;
             this.btnClear.Text = "C&lear for Next Item";
             this.btnClear.UseVisualStyleBackColor = true;
-            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // btnCalculate
             // 
@@ -183,7 +183,6 @@
             this.rdoIcedCappuccino.TabStop = true;
             this.rdoIcedCappuccino.Text = "Iced Ca&ppuccino";
             this.rdoIcedCappuccino.UseVisualStyleBackColor = true;
-            this.rdoIcedCappuccino.CheckedChanged += new System.EventHandler(this.RadioButton_CheckedChanged);
             // 
             // rdoIcedLatte
             // 
@@ -195,7 +194,6 @@
             this.rdoIcedLatte.TabStop = true;
             this.rdoIcedLatte.Text = "&Iced Latte";
             this.rdoIcedLatte.UseVisualStyleBackColor = true;
-            this.rdoIcedLatte.CheckedChanged += new System.EventHandler(this.RadioButton_CheckedChanged);
             // 
             // rdoLatte
             // 
@@ -207,7 +205,6 @@
             this.rdoLatte.TabStop = true;
             this.rdoLatte.Text = "La&tte";
             this.rdoLatte.UseVisualStyleBackColor = true;
-            this.rdoLatte.CheckedChanged += new System.EventHandler(this.RadioButton_CheckedChanged);
             // 
             // rdoEspresso
             // 
@@ -219,7 +216,6 @@
             this.rdoEspresso.TabStop = true;
             this.rdoEspresso.Text = "Espress&o";
             this.rdoEspresso.UseVisualStyleBackColor = true;
-            this.rdoEspresso.CheckedChanged += new System.EventHandler(this.RadioButton_CheckedChanged);
             // 
             // rdoCappuccino
             // 
@@ -231,7 +227,6 @@
             this.rdoCappuccino.TabStop = true;
             this.rdoCappuccino.Text = "C&appuccino";
             this.rdoCappuccino.UseVisualStyleBackColor = true;
-            this.rdoCappuccino.CheckedChanged += new System.EventHandler(this.RadioButton_CheckedChanged);
             // 
             // groupBox3
             // 
@@ -244,7 +239,7 @@
             this.groupBox3.Location = new System.Drawing.Point(27, 392);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(593, 159);
-            this.groupBox3.TabIndex = 2;
+            this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Amount Due";
             // 
@@ -307,25 +302,25 @@
             this.btnExit.Location = new System.Drawing.Point(520, 557);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(100, 30);
-            this.btnExit.TabIndex = 1;
+            this.btnExit.TabIndex = 2;
             this.btnExit.Text = "E&xit";
             this.btnExit.UseVisualStyleBackColor = true;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // btnNewOrder
             // 
             this.btnNewOrder.Location = new System.Drawing.Point(408, 558);
             this.btnNewOrder.Name = "btnNewOrder";
             this.btnNewOrder.Size = new System.Drawing.Size(100, 29);
-            this.btnNewOrder.TabIndex = 5;
+            this.btnNewOrder.TabIndex = 1;
             this.btnNewOrder.Text = "&New Order";
             this.btnNewOrder.UseVisualStyleBackColor = true;
-            this.btnNewOrder.Click += new System.EventHandler(this.btnNewOrder_Click);
             // 
             // frmCoffeeShop
             // 
+            this.AcceptButton = this.btnCalculate;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnClear;
             this.ClientSize = new System.Drawing.Size(645, 621);
             this.Controls.Add(this.btnNewOrder);
             this.Controls.Add(this.btnExit);
@@ -338,7 +333,6 @@
             this.Name = "frmCoffeeShop";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Coffee Selection";
-            this.Load += new System.EventHandler(this.frmCoffeeShop_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.grpCoffee.ResumeLayout(false);

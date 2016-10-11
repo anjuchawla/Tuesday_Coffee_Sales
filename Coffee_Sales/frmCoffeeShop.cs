@@ -64,6 +64,7 @@ namespace Coffee_Sales
                 selectedRadioButton.Checked = false;
                 selectedRadioButton = null;
             }
+            txtQuantity.Focus();
         }
 
         private void btnNewOrder_Click(object sender, EventArgs e)
@@ -128,88 +129,114 @@ namespace Coffee_Sales
             //quantity provided
             if (txtQuantity.Text != String.Empty)
             {
-                //convert text to integer
-                quantity = int.Parse(txtQuantity.Text); //could use Convert.toInt32(...)
-                //quantity is > 0
-                if (quantity > 0)
+                try
                 {
-                    //coffee type is selected
-                    if (selectedRadioButton != null)
+                    //convert text to integer
+                    quantity = int.Parse(txtQuantity.Text); //could use Convert.ToInt32(txtQuantity.Text);
+                                                            //bool result = int.TryParse(txtQuantity.Text,out quantity);
+                                                            //quantity is > 0
+                    if (quantity > 0)
                     {
-                        //calculate the item amount due
-
-                        switch (selectedRadioButton.Name)
+                        //coffee type is selected
+                        if (selectedRadioButton != null)
                         {
-                            case "rdoCappuccino":
+                            //calculate the item amount due
+
+                            switch (selectedRadioButton.Name)
+                            {
+                                case "rdoCappuccino":
+                                    price = CappuccinoPrice;
+                                    break;
+                                case "rdoEspresso":
+                                    price = EspressoPrice;
+                                    break;
+                                case "rdoLatte":
+                                    price = LattePrice;
+                                    break;
+                                case "rdoIcedCappuccino":
+                                case "rdoIcedLatte":
+                                    price = IcedPrice;
+                                    break;
+
+                                    //    default:
+                                    //      price = 0;
+                                    //       break;
+                            }
+                            /*
+                            if (rdoCappuccino.Checked)
                                 price = CappuccinoPrice;
-                                break;
-                            case "rdoEspresso":
-                                price = EspressoPrice;
-                                break;
-                            case "rdoLatte":
-                                price = LattePrice;
-                                break;
-                            case "rdoIcedCappuccino":
-                            case "rdoIcedLatte":
-                                price = IcedPrice;
-                                break;
+                                else if (rdoEspresso.Checked)
+                                    price = EspressoPrice;
+                                else if (rdoLatte.Checked)
+                                    price = LattePrice;
+                                else //if(rdoIcedCappuccino.Checked || rdoIcedLatte.Checked )
+                                    price = IcedPrice;
+                            //else    price = 0 ;
+                            */
+                            //calculations
+                            itemAmount = price * quantity;
+                            subTotalAmount += itemAmount; //subTotalAmount = subTotalAmount + itemAmount ;
+                            if (chkTakeout.Checked)
+                            {
+                                tax = TaxRate * subTotalAmount;
+                            }
+                            else  //avoid it by initialising local tax =0
+                            {
+                                tax = 0;
+                            }
+                            totalAmount = subTotalAmount + tax;
 
-                                //    default:
-                                //      price = 0;
-                                //       break;
-                        }
-                        /*
-                        if (rdoCappuccino.Checked)
-                            price = CappuccinoPrice;
-                            else if (rdoEspresso.Checked)
-                                price = EspressoPrice;
-                            else if (rdoLatte.Checked)
-                                price = LattePrice;
-                            else //if(rdoIcedCappuccino.Checked || rdoIcedLatte.Checked )
-                                price = IcedPrice;
-                        //else    price = 0 ;
-                        */
-                        //calculations
-                        itemAmount = price * quantity;
-                        subTotalAmount += itemAmount; //subTotalAmount = subTotalAmount + itemAmount ;
-                        if (chkTakeout.Checked)
+                            //display values
+                            txtItemAmount.Text = itemAmount.ToString("c");
+                            txtSubtotal.Text = subTotalAmount.ToString("c");
+                            txtTax.Text = tax.ToString("c");
+                            txtTotalDue.Text = totalAmount.ToString("c");
+
+                        }//coffee selected
+                        else
                         {
-                            tax = TaxRate * subTotalAmount;
-                        }
-                        else  //avoid it by initialising local tax =0
-                        {
-                            tax = 0;
-                        }
-                        totalAmount = subTotalAmount + tax;
+                            MessageBox.Show("The coffee type needs to be selected", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        //display values
-                        txtItemAmount.Text = itemAmount.ToString("c");
-                        txtSubtotal.Text = subTotalAmount.ToString("c");
-                        txtTax.Text = tax.ToString("c");
-                        txtTotalDue.Text = totalAmount.ToString("c");
+                        }
 
-                    }//coffee selected
+                    }//quantity > 0
                     else
                     {
-                        MessageBox.Show("The coffee type needs to be selected", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                        MessageBox.Show("The number of coffees to be ordered should be greater than 0", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //txtQuantity.SelectAll();
+                        txtQuantity.Clear();
+                        txtQuantity.Focus();
                     }
-
-                }//quantity > 0
-                else
+                    
+                }//try
+                catch (FormatException quantityFE)
                 {
-                    MessageBox.Show("The number of coffees to be ordered should be greater than 0", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    //txtQuantity.SelectAll();
-                    txtQuantity.Clear();
+                   // if(txtQuantity.Text == String.Empty)
+                        //show maessage here
+                        //else
+                    MessageBox.Show("Quantity of coffees needed MUST be a whole number",
+                        "Quantity Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtQuantity.SelectAll(); //txtQuantity.Clear();
+                    txtQuantity.Focus(); 
+                }
+                catch (OverflowException quantityOE)
+                {
+                    MessageBox.Show("Quantity of coffees is out of range",
+                       "Quantity Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtQuantity.SelectAll();
                     txtQuantity.Focus();
                 }
-
-
-
+                catch (Exception quantityException)
+                {
+                    MessageBox.Show(quantityException.Message,
+                       "Quantity Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtQuantity.SelectAll();
+                    txtQuantity.Focus();
+                }
             }//quantity provided
             else
             {
-                MessageBox.Show("Please provide the number of coffees to be ordered", "Input Missing", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please provide the number of coffees to be ordered.", "Input Missing", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtQuantity.Focus();
             }
 

@@ -8,6 +8,7 @@ namespace Coffee_Sales
 {
     static class Program
     {
+        public static frmSplashScreen ss;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -16,6 +17,8 @@ namespace Coffee_Sales
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            ss = new frmSplashScreen();
+            ss.ShowDialog();
             Application.Run(new frmCoffeeShop());
         }
     }

@@ -22,8 +22,9 @@ namespace Coffee_Sales
     {
         //module level variables
         //objects are initialised to null and numbers to 0
-        private decimal subTotalAmount, totalAmount;
+        private decimal subTotalAmount, totalAmount, grandTotalAmount;
         private RadioButton selectedRadioButton;
+        private int customerCount;
 
         //constants
         const decimal TaxRate = 0.13m;
@@ -76,6 +77,11 @@ namespace Coffee_Sales
             //if the user confirms the new order
             if (confirm == DialogResult.Yes)
             {
+                //accumulate for summary information
+                customerCount++;
+                grandTotalAmount += totalAmount;
+
+
                 btnClear.Enabled = false;
                 btnNewOrder.Enabled = false;
                 tsmiNewOrder.Enabled = false;
@@ -112,6 +118,84 @@ namespace Coffee_Sales
             btnNewOrder.Enabled = false;
             tsmiNewOrder.Enabled = false;
             //Program.ss.Close();
+        }
+
+        private void tsmiAbout_Click(object sender, EventArgs e)
+        {
+            //show the information to the user
+            frmAbout about = new frmAbout();
+            about.ShowDialog();
+        }
+
+        private void tsmiFont_Click(object sender, EventArgs e)
+        {
+            //when user chooses the font menu option
+            //allow the user to change the font of the output
+
+            Font selectedFont;
+
+            //show the font dialog
+            fontDialog1.ShowDialog();
+            //save the font chosen by user
+            selectedFont = fontDialog1.Font;
+
+            //set the font for the output
+            txtSubtotal.Font = selectedFont;
+            txtTax.Font = selectedFont;
+            txtTotalDue.Font = selectedFont;
+
+
+
+
+        }
+
+        private void tsmiColor_Click(object sender, EventArgs e)
+        {
+            //when user chooses the color menu option
+            //allow the user to change the color of the output
+
+            Color selectedColor;
+
+            //show the color dialog
+            colorDialog1.ShowDialog();
+            //save the color chosen by user
+            selectedColor = colorDialog1.Color;
+
+            //irrelevant assignments to make the 'control' back color work
+            //set the color for the output
+            txtSubtotal.BackColor = txtSubtotal.BackColor;
+            txtSubtotal.ForeColor = selectedColor;
+            txtTax.BackColor = txtTax.BackColor;
+            txtTax.ForeColor = selectedColor;
+            txtTotalDue.BackColor = txtTotalDue.BackColor;
+            txtTotalDue.ForeColor = selectedColor;
+
+        }
+
+        private void btnSummary_Click(object sender, EventArgs e)
+        {
+            //Showing summary information of the customers serviced and total and average sales amount
+            decimal averageDecimal;
+            String message;
+
+            if(customerCount > 0)  //cutomers were serviced
+            {
+                averageDecimal = grandTotalAmount / customerCount;
+                message = "Total Number Of Customers: " + customerCount.ToString() + "\n"
+                    + "Total Sales Amount: " + grandTotalAmount.ToString("c") + Environment.NewLine +
+                    "Average Sales: " + averageDecimal.ToString("c");
+                MessageBox.Show(message,
+                   "Summary Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+            }
+            else
+            {
+                MessageBox.Show("No customers serviced yet...no summary information", 
+                    "Summary Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+
         }
 
         private void btnCalculate_Click(object sender, EventArgs e)
@@ -189,6 +273,7 @@ namespace Coffee_Sales
                             tax = 0;
                         }
                         totalAmount = subTotalAmount + tax;
+                       
 
                         //display values
                         txtItemAmount.Text = itemAmount.ToString("c");
